@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaderboard</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    body { font-family: sans-serif; text-align: center; }
+    h1 { color: #3a3; }
+    ul { list-style: none; padding: 0; }
+    li { font-size: 1.5em; margin: 1em 0; }
+  </style>
+</head>
+<body>
+  <h1>🏆 Rover Scouts Leaderboard</h1>
+  <ul id="leaderboard"></ul>
+
+  <script>
+    const socket = io();
+    const list = document.getElementById('leaderboard');
+
+    socket.on('score-update', (scores) => {
+      list.innerHTML = '';
+      Object.entries(scores).forEach(([team, score]) => {
+        const li = document.createElement('li');
+        li.textContent = `${team}: ${score} pts`;
+        list.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>
+
