@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🚀 Submit Score</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
@@ -20,8 +21,9 @@
       overflow-x: hidden;
     }
 
+    /* Responsive font sizes for headings */
     h1 {
-      font-size: 3em;
+      font-size: 2em;
       color: #f9c74f;
       margin-top: 1.5em;
       text-shadow: 0 0 10px #f9c74f, 0 0 20px #f9844a;
@@ -30,7 +32,7 @@
     }
 
     h2 {
-      font-size: 2.5em;
+      font-size: 1.8em;
       color: #f9c74f;
       margin-top: 1em;
       text-shadow: 0 0 10px #f9c74f, 0 0 20px #f9844a;
@@ -44,7 +46,8 @@
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 20px;
-      padding: 2em;
+      padding: 1.5em;
+      width: 90%;
       max-width: 400px;
       margin: 2em auto;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -60,6 +63,7 @@
       border: none;
       outline: none;
       width: 100%;
+      box-sizing: border-box;
       margin-bottom: 1em;
     }
 
@@ -83,12 +87,12 @@
 
     #msg {
       margin-top: 1em;
-      font-size: 1.2em;
+      font-size: 1em;
       color: #f9c74f;
       text-shadow: 0 0 5px #f9c74f;
     }
 
-    /* Starfield animation */
+    /* Starfield animation styles remain the same */
     .stars, .twinkling, .overlay {
       position: fixed;
       top: 0; left: 0;
@@ -98,11 +102,13 @@
 
     .stars {
       background: #000 url('SAS_CLAN_III_4.png') repeat;
+      background-size: cover;
       animation: moveStars 200s linear infinite;
     }
 
     .twinkling {
       background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+      background-size: contain;
       animation: moveTwinkling 100s linear infinite;
       opacity: 0.1;
     }
@@ -120,6 +126,20 @@
       from { background-position: 0 0; }
       to { background-position: 1000px 1000px; }
     }
+
+    /* Additional media queries for very small screens */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5em;
+      }
+      h2 {
+        font-size: 1.3em;
+      }
+      #msg {
+        font-size: 0.9em;
+      }
+      /* Optional: tweak padding or font sizes further if needed */
+    }
   </style>
 </head>
 <body>
@@ -130,7 +150,7 @@
   <h1>Congratulations!</h1>
   <h2>🛰️ اكتب رقم رهطك</h2>
   <div class="form-container">
-    <input type="number" id="team" placeholder="Team number (1-4)">
+    <input type="number" id="team" placeholder="Team number (1-4)" min="1" max="4" />
     <button onclick="submit()">Submit</button>
     <p id="msg"></p>
   </div>
