@@ -1,13 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Leaderboard</title>
+  <meta charset="UTF-8" />
+  <title>🏆 Rover Scouts Leaderboard</title>
   <script src="/socket.io/socket.io.js"></script>
   <style>
-    body { font-family: sans-serif; text-align: center; }
-    h1 { color: #3a3; }
-    ul { list-style: none; padding: 0; }
-    li { font-size: 1.5em; margin: 1em 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #e8f5e9);
+      text-align: center;
+      padding: 2em;
+      color: #333;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #2e7d32;
+      margin-bottom: 0.5em;
+      text-shadow: 1px 1px 2px #a5d6a7;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    li {
+      background: #ffffffcc;
+      margin: 1em 0;
+      padding: 1em 2em;
+      border-radius: 12px;
+      font-size: 1.5em;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, background 0.3s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    li:hover {
+      transform: scale(1.03);
+      background: #f1f8e9;
+    }
+
+    .badge {
+      font-size: 0.8em;
+      background: gold;
+      color: #000;
+      padding: 0.3em 0.6em;
+      border-radius: 8px;
+      margin-left: 1em;
+    }
+
+    .first { background: #ffd700; }
+    .second { background: #c0c0c0; }
+    .third { background: #cd7f32; }
   </style>
 </head>
 <body>
@@ -20,13 +69,34 @@
 
     socket.on('score-update', (scores) => {
       list.innerHTML = '';
-      Object.entries(scores).forEach(([team, score]) => {
+
+      // Convert to array and sort by score descending
+      const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+
+      sorted.forEach(([team, score], index) => {
         const li = document.createElement('li');
         li.textContent = `${team}: ${score} pts`;
+
+        // Add badge for top 3
+        const badge = document.createElement('span');
+        badge.classList.add('badge');
+        if (index === 0) {
+          badge.textContent = '🥇 1st';
+          li.classList.add('first');
+        } else if (index === 1) {
+          badge.textContent = '🥈 2nd';
+          li.classList.add('second');
+        } else if (index === 2) {
+          badge.textContent = '🥉 3rd';
+          li.classList.add('third');
+        } else {
+          badge.textContent = `#${index + 1}`;
+        }
+
+        li.appendChild(badge);
         list.appendChild(li);
       });
     });
   </script>
 </body>
 </html>
-
