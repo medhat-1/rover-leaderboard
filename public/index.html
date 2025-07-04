@@ -2,65 +2,126 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>🏆 Rover Scouts Leaderboard</title>
+  <title>🚀 Astro Leaderboard</title>
   <script src="/socket.io/socket.io.js"></script>
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #e0f7fa, #e8f5e9);
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: 'Orbitron', sans-serif;
+      background: #0d1b2a;
+      color: #e0e1dd;
       text-align: center;
-      padding: 2em;
-      color: #333;
     }
 
     h1 {
       font-size: 3em;
-      color: #2e7d32;
-      margin-bottom: 0.5em;
-      text-shadow: 1px 1px 2px #a5d6a7;
+      color: #f9c74f;
+      margin-top: 1.5em;
+      text-shadow: 0 0 10px #f9c74f, 0 0 20px #f9844a;
+      z-index: 2;
+      position: relative;
     }
 
     ul {
       list-style: none;
       padding: 0;
-      max-width: 600px;
-      margin: 0 auto;
+      max-width: 700px;
+      margin: 2em auto;
+      z-index: 2;
+      position: relative;
     }
 
     li {
-      background: #ffffffcc;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
       margin: 1em 0;
       padding: 1em 2em;
-      border-radius: 12px;
       font-size: 1.5em;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease, background 0.3s ease;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.6s ease both;
     }
 
     li:hover {
       transform: scale(1.03);
-      background: #f1f8e9;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
     }
 
     .badge {
-      font-size: 0.8em;
-      background: gold;
-      color: #000;
-      padding: 0.3em 0.6em;
-      border-radius: 8px;
+      font-size: 0.9em;
+      padding: 0.4em 0.8em;
+      border-radius: 10px;
       margin-left: 1em;
+      color: #000;
+      font-weight: bold;
     }
 
-    .first { background: #ffd700; }
-    .second { background: #c0c0c0; }
-    .third { background: #cd7f32; }
+    .first { background: linear-gradient(to right, #ffd700, #fff176); color: #000; }
+    .second { background: linear-gradient(to right, #c0c0c0, #e0e0e0); color: #000; }
+    .third { background: linear-gradient(to right, #cd7f32, #ffb74d); color: #000; }
+    .other { background: linear-gradient(to right, #585858, #8f8f8f); color: #000; }
+
+    /* Starfield animation */
+    .stars, .twinkling, .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    .stars {
+      background: #000 url('/SAS_CLAN_III_4.png') repeat;
+      animation: moveStars 200s linear infinite;
+    }
+
+    .twinkling {
+      background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+      animation: moveTwinkling 100s linear infinite;
+      opacity: 0.1;
+    }
+
+    .overlay {
+      background: radial-gradient(ellipse at center, rgba(13,27,42,0.6) 0%, rgba(13,27,42,1) 100%);
+    }
+
+    @keyframes moveStars {
+      from { background-position: 0 0; }
+      to { background-position: -10000px 5000px; }
+    }
+
+    @keyframes moveTwinkling {
+      from { background-position: 0 0; }
+      to { background-position: 1000px 1000px; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>🏆 Rover Scouts Leaderboard</h1>
+  <div class="stars"></div>
+  <div class="twinkling"></div>
+  <div class="overlay"></div>
+
+  <h1>🚀 SAS CLAN III Leaderboard</h1>
   <ul id="leaderboard"></ul>
 
   <script>
@@ -70,16 +131,15 @@
     socket.on('score-update', (scores) => {
       list.innerHTML = '';
 
-      // Convert to array and sort by score descending
       const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
 
       sorted.forEach(([team, score], index) => {
         const li = document.createElement('li');
-        li.textContent = `${team}: ${score} pts`;
+        li.textContent = `${team} 🚀 ${score} pts`;
 
-        // Add badge for top 3
         const badge = document.createElement('span');
         badge.classList.add('badge');
+
         if (index === 0) {
           badge.textContent = '🥇 1st';
           li.classList.add('first');
@@ -91,6 +151,7 @@
           li.classList.add('third');
         } else {
           badge.textContent = `#${index + 1}`;
+          li.classList.add('other');
         }
 
         li.appendChild(badge);
