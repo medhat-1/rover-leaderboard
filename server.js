@@ -31,11 +31,12 @@ app.post('/submit-code', (req, res) => {
   // console.log("Available teams:", Object.keys(scores));
   // console.log("Available codes:", Object.keys(codes));
 
-  if (!points || !scores[`team${team}`]) {
+
+  if (!points || !scores[team]) {
     return res.status(400).send('Invalid team or code.');
   }
 
-  scores[`team${team}`] += points;
+  scores[team] += points;
   delete codes[code];
 
   fs.writeFileSync('./scores.json', JSON.stringify(scores, null, 2));
