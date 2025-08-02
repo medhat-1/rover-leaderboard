@@ -43,7 +43,7 @@ app.post('/submit-code', (req, res) => {
   fs.writeFileSync('./codes.json', JSON.stringify(codes, null, 2));
 
   io.emit('score-update', scores);
-  res.send('Score updated!');
+  res.send('Score updated for ' + team + '!');
 });
 
 http.listen(3000, () => {

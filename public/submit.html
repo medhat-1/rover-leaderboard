@@ -83,6 +83,10 @@
       border: 1.5px solid #00b4d8;
     }
 
+    select option[disabled][selected] {
+      color: #888;
+    }
+
     button {
       background: linear-gradient(to right, #00b4d8, #90e0ef);
       color: #000;
@@ -158,13 +162,14 @@
   <div class="overlay"></div>
 
   <h1>Congratulations!</h1>
-  <h2>🛰️ اكتب رقم رهطك</h2>
+  <h2>🛰️ اختر رهطك</h2>
   <div class="form-container">
     <select id="team">
-      <option value="shams el-mgara">Shams el-Mgara</option>
-      <option value="el-lel w a5ro">El-Lel w A5ro</option>
-      <option value="za7alny el-zman">Za7alny el-Zman</option>
-      <option value="zara x el-mgara">Zara x el-Mgara</option>
+      <option value="" disabled selected>Please select your team</option>
+      <option value="shams el-mgara">1- Shams el-Mgara</option>
+      <option value="el-lel w a5ro">2- El-Lel w A5ro</option>
+      <option value="za7alny el-zman">3- Za7alny el-Zman</option>
+      <option value="zara x el-mgara">4- Zara x el-Mgara</option>
     </select>
     <button onclick="submit()">Submit</button>
     <p id="msg"></p>
